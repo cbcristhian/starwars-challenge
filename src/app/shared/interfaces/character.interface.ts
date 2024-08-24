@@ -1,18 +1,25 @@
-interface StarWarsCharacter {
-  birth_year: string;
-  eye_color: string;
-  films: string[];
-  gender: string;
-  hair_color: string;
-  height: string;
-  homeworld: string;
-  mass: string;
+export interface CharacterResponse {
+  count: number;
+  next: string;
+  previous: null;
+  results: StarWarsCharacter[];
+}
+
+export interface StarWarsCharacter {
   name: string;
+  height: string;
+  mass: string;
+  hair_color: string;
   skin_color: string;
-  created: string;
-  edited: string;
+  eye_color: string;
+  birth_year: string;
+  gender: string;
+  homeworld: string;
+  films: string[];
   species: string[];
-  starships: string[];
-  url: string;
   vehicles: string[];
+  starships: string[];
+  created: Date;
+  edited: Date;
+  url: string;
 }

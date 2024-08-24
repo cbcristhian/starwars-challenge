@@ -5,10 +5,11 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CharacterListComponent } from './features/character-list/character-list.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent],
+  declarations: [AppComponent, NavbarComponent, CharacterListComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

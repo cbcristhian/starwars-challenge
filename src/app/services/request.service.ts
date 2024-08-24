@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class RequestService {
   constructor(protected http: HttpClient) {}
 
-  protected get<T>(url: string) {
-    return this.http.get<T>(url);
+  protected get<T>(url: string, params: any = null) {
+    return this.http.get<T>(url, { params });
   }
 }
