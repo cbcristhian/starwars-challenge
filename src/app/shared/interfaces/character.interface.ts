@@ -1,7 +1,7 @@
 export interface CharacterResponse {
   count: number;
   next: string;
-  previous: null;
+  previous: string;
   results: StarWarsCharacter[];
 }
 
