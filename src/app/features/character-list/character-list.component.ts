@@ -12,6 +12,7 @@ export class CharacterListComponent implements OnInit {
   nextUrl: string | null = null;
   previousUrl: string | null = null;
   currentPage = 1;
+  loading = false;
 
   constructor(private swapiService: SwapiService) {}
 
@@ -20,10 +21,12 @@ export class CharacterListComponent implements OnInit {
   }
 
   loadCharacters() {
+    this.loading = true;
     this.swapiService.getCharacters(this.currentPage).subscribe(Response => {
       this.characterList = Response.results;
       this.nextUrl = Response.next;
       this.previousUrl = Response.previous;
+      this.loading = false;
     });
   }
 

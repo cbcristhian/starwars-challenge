@@ -1,28 +1,31 @@
-<div class="row">
-  @for (character of characterList; track $index) {
-    <div class="col-md-4 mb-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{{ character.name }}</h5>
-          <p class="card-text">Height: {{ character.height }} cm</p>
-          <p class="card-text">Mass: {{ character.mass }} kg</p>
-          <p class="card-text">Hair Color: {{ character.hair_color }}</p>
-          <p class="card-text">Skin Color: {{ character.skin_color }}</p>
-          <p class="card-text">Eye Color: {{ character.eye_color }}</p>
-          <p class="card-text">Birth Year: {{ character.birth_year }}</p>
-          <p class="card-text">Gender: {{ character.gender }}</p>
+@if (loading) {
+  <app-loading></app-loading>
+} @else {
+  <div class="row">
+    @for (character of characterList; track $index) {
+      <div class="col-md-3 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ character.name }}</h5>
+            <p class="card-text">Height: {{ character.height }} cm</p>
+            <p class="card-text">Mass: {{ character.mass }} kg</p>
+            <p class="card-text">Birth Year: {{ character.birth_year }}</p>
+            <p class="card-text">Gender: {{ character.gender }}</p>
+          </div>
         </div>
       </div>
-    </div>
-  }
-  <nav aria-label="Page navigation">
-    <ul class="pagination">
-      <li class="page-item" [class.disabled]="!previousUrl">
-        <button class="page-link" (click)="loadPreviousPage()">Previous</button>
-      </li>
-      <li class="page-item" [class.disabled]="!nextUrl">
-        <button class="page-link" (click)="loadNextPage()">Next</button>
-      </li>
-    </ul>
-  </nav>
-</div>
+    }
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="!previousUrl">
+          <button class="page-link" (click)="loadPreviousPage()">
+            Previous
+          </button>
+        </li>
+        <li class="page-item" [class.disabled]="!nextUrl">
+          <button class="page-link" (click)="loadNextPage()">Next</button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+}

@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CharacterListComponent } from './features/character-list/character-list.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
+import { LoadingComponent } from './shared/loading/loading.component';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, CharacterListComponent],
@@ -15,6 +16,7 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    LoadingComponent,
   ],
   providers: [],
   bootstrap: [AppComponent],
