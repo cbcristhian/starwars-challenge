@@ -11,6 +11,9 @@
             <p class="card-text">Mass: {{ character.mass }} kg</p>
             <p class="card-text">Birth Year: {{ character.birth_year }}</p>
             <p class="card-text">Gender: {{ character.gender }}</p>
+            <a class="btn btn-primary" (click)="addToFavorite(character)"
+              >Favorite</a
+            >
           </div>
         </div>
       </div>

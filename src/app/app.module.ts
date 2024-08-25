@@ -8,9 +8,15 @@ import { AppComponent } from './app.component';
 import { CharacterListComponent } from './features/character-list/character-list.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { LoadingComponent } from './shared/loading/loading.component';
+import { FavoriteCharactersComponent } from './features/favorite-characters/favorite-characters.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, CharacterListComponent],
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    CharacterListComponent,
+    FavoriteCharactersComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
