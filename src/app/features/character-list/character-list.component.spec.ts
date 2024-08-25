@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CharacterListComponent } from './character-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { LoadingComponent } from '../../shared/loading/loading.component';
 
 describe('CharacterListComponent', () => {
   let component: CharacterListComponent;
@@ -9,7 +10,7 @@ describe('CharacterListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientModule],
+      imports: [HttpClientModule, LoadingComponent],
       declarations: [CharacterListComponent],
     }).compileComponents();
 
