@@ -17,6 +17,14 @@
               (click)="addToFavorite(character)"
               >Favorite</a
             >
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-toggle="modal"
+              [attr.data-bs-target]="'#character-' + character.url">
+              See more...
+            </button>
+            <app-character [character]="character"></app-character>
           </div>
         </div>
       </div>

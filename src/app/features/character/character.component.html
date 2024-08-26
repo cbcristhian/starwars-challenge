@@ -1,0 +1,37 @@
+<div
+  class="modal fade"
+  id="character-{{ character.url }}"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          {{ character.name }}
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul>
+          <li>Height: {{ character.height }} cm</li>
+          <li>Birth Year: {{ character.birth_year }}</li>
+          <li>Eye Color: {{ character.eye_color }}</li>
+          <li>Gender: {{ character.gender }}</li>
+          <li>Hair Color: {{ character.hair_color }}</li>
+          <li>Weight: {{ character.mass }} kg</li>
+          <li>Skin Color: {{ character.skin_color }}</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -9,6 +9,7 @@ import { CharacterListComponent } from './features/character-list/character-list
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { LoadingComponent } from './shared/loading/loading.component';
 import { FavoriteCharactersComponent } from './features/favorite-characters/favorite-characters.component';
+import { CharacterComponent } from './features/character/character.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { FavoriteCharactersComponent } from './features/favorite-characters/favo
     NavbarComponent,
     CharacterListComponent,
     FavoriteCharactersComponent,
+    CharacterComponent,
   ],
   imports: [
     BrowserModule,
