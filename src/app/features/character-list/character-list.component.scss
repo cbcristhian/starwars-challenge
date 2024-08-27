@@ -16,3 +16,21 @@
   color: #666;
   background-color: #444;
 }
+
+
+.form-control {
+  background-color: #333;
+  border: 1px solid #feda4a;
+  color: #feda4a;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.form-control::placeholder {
+  color: #ccc;
+}
+
+.form-control:focus {
+  border-color: #ffe81f;
+  box-shadow: 0 0 5px #ffe81f;
+}
+

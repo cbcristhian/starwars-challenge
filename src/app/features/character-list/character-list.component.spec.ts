@@ -1,14 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { of } from 'rxjs';
 import { CharacterListComponent } from './character-list.component';
 import { SwapiService } from '../../services/swapi/swapi.service';
-import { of } from 'rxjs';
-import {
-  CharacterResponse,
-  StarWarsCharacter,
-} from '../../shared/interfaces/character.interface';
-import { Utils } from '../../shared/Utils';
 import { FavoriteService } from '../../services/favorite/favorite.service';
+import { StarWarsCharacter } from '../../shared/interfaces/character.interface';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Utils } from '../../shared/Utils';
+import { CharacterComponent } from '../character/character.component';
 
 describe('CharacterListComponent', () => {
   let component: CharacterListComponent;
@@ -43,11 +41,17 @@ describe('CharacterListComponent', () => {
       'isFavorite',
       'addOrRemoveFavorite',
     ]);
+
+    spyOn(Utils, 'get').and.returnValue('');
+    spyOn(Utils, 'set').and.callThrough();
+
     await TestBed.configureTestingModule({
-      declarations: [CharacterListComponent],
+      declarations: [CharacterListComponent, CharacterComponent],
+      imports: [ReactiveFormsModule],
       providers: [
         { provide: SwapiService, useValue: swapiServiceSpy },
         { provide: FavoriteService, useValue: favoriteServiceSpy },
+        FormBuilder,
       ],
     }).compileComponents();
 
@@ -63,28 +67,11 @@ describe('CharacterListComponent', () => {
         count: 1,
         next: 'next-url',
         previous: 'previous-url',
-        results: [
-          {
-            name: 'Luke Skywalker',
-            height: '172',
-            mass: '77',
-            hair_color: 'blond',
-            skin_color: 'fair',
-            eye_color: 'blue',
-            birth_year: '19BBY',
-            gender: 'male',
-            homeworld: 'Tatooine',
-            films: [],
-            species: [],
-            vehicles: [],
-            starships: [],
-            created: new Date(),
-            edited: new Date(),
-            url: '',
-          },
-        ],
+        results: [mockCharacter],
       })
     );
+
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -92,15 +79,7 @@ describe('CharacterListComponent', () => {
   });
 
   it('should load characters on init', () => {
-    const mockResponse = {
-      count: 1,
-      next: 'next-url',
-      previous: 'previous-url',
-      results: [mockCharacter],
-    };
-    swapiService.getCharacters.and.returnValue(of(mockResponse));
-
-    component.ngOnInit(); // Calls loadCharacters internally
+    component.ngOnInit();
 
     expect(component.characterList.length).toBe(1);
     expect(component.nextUrl).toBe('next-url');
@@ -109,14 +88,6 @@ describe('CharacterListComponent', () => {
   });
 
   it('should load the next page of characters', () => {
-    const mockResponse = {
-      count: 1,
-      next: 'next-url',
-      previous: 'previous-url',
-      results: [mockCharacter],
-    };
-    swapiService.getCharacters.and.returnValue(of(mockResponse));
-
     component.nextUrl = 'next-url';
     component.loadNextPage();
 
@@ -125,14 +96,6 @@ describe('CharacterListComponent', () => {
   });
 
   it('should load the previous page of characters', () => {
-    const mockResponse = {
-      count: 1,
-      next: 'next-url',
-      previous: 'previous-url',
-      results: [mockCharacter],
-    };
-    swapiService.getCharacters.and.returnValue(of(mockResponse));
-
     component.previousUrl = 'previous-url';
     component.currentPage = 2;
     component.loadPreviousPage();
@@ -154,5 +117,15 @@ describe('CharacterListComponent', () => {
     expect(favoriteService.addOrRemoveFavorite).toHaveBeenCalledWith(
       mockCharacter
     );
+  });
+
+  it('should filter characters based on searchTerm', () => {
+    component.ngOnInit();
+
+    component.characterForm.get('searchTerm')?.setValue('Luke');
+    fixture.detectChanges();
+
+    expect(component.filteredCharacterList.length).toBe(1);
+    expect(component.filteredCharacterList[0].name).toBe('Luke Skywalker');
   });
 });

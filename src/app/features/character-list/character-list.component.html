@@ -1,8 +1,18 @@
 @if (loading) {
   <app-loading></app-loading>
 } @else {
+  <form class="mt-3" [formGroup]="characterForm">
+    <div class="mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="searchBar"
+        formControlName="searchTerm"
+        placeholder="Search characters by name" />
+    </div>
+  </form>
   <div class="row">
-    @for (character of characterList; track $index) {
+    @for (character of filteredCharacterList; track $index) {
       <div class="col-md-3 mb-4">
         <div class="card">
           <div class="card-body">

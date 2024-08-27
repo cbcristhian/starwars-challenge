@@ -3,6 +3,8 @@ import { Subject, takeUntil } from 'rxjs';
 import { SwapiService } from '../../services/swapi/swapi.service';
 import { StarWarsCharacter } from '../../shared/interfaces/character.interface';
 import { FavoriteService } from '../../services/favorite/favorite.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Utils } from '../../shared/Utils';
 
 @Component({
   selector: 'app-character-list',
@@ -12,20 +14,31 @@ import { FavoriteService } from '../../services/favorite/favorite.service';
 export class CharacterListComponent implements OnInit, OnDestroy {
   favoriteList: StarWarsCharacter[] = [];
   characterList: StarWarsCharacter[] = [];
+  filteredCharacterList: StarWarsCharacter[] = [];
   nextUrl: string | null = null;
   previousUrl: string | null = null;
   currentPage = 1;
   loading = false;
 
+  characterForm!: FormGroup;
   private unsubscribe$ = new Subject<void>();
 
   constructor(
     private swapiService: SwapiService,
-    private favoriteService: FavoriteService
+    private favoriteService: FavoriteService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
+    this.characterForm = this.fb.group({
+      searchTerm: [Utils.get('searchTerm') ?? ''],
+    });
     this.loadCharacters();
+
+    this.characterForm.valueChanges.subscribe(filters => {
+      Utils.set('searchTerm', filters.searchTerm);
+      this.filterCharacters(filters.searchTerm);
+    });
   }
   ngOnDestroy(): void {
     this.unsubscribe$.next();
@@ -40,6 +53,7 @@ export class CharacterListComponent implements OnInit, OnDestroy {
       .subscribe({
         next: Response => {
           this.characterList = Response.results;
+          this.filterCharacters(this.characterForm.get('searchTerm')?.value);
           this.nextUrl = Response.next;
           this.previousUrl = Response.previous;
           this.loading = false;
@@ -70,5 +84,16 @@ export class CharacterListComponent implements OnInit, OnDestroy {
 
   addToFavorite(character: StarWarsCharacter) {
     this.favoriteService.addOrRemoveFavorite(character);
+  }
+
+  filterCharacters(searchTerm: string): void {
+    let filtered = this.characterList;
+    if (searchTerm) {
+      filtered = filtered.filter(character =>
+        character.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    this.filteredCharacterList = filtered;
   }
 }

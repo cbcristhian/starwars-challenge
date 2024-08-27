@@ -25,6 +25,7 @@ import { CharacterComponent } from './features/character/character.component';
     HttpClientModule,
     ReactiveFormsModule,
     LoadingComponent,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
