@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { SwapiService } from '../../services/swapi/swapi.service';
 import { StarWarsCharacter } from '../../shared/interfaces/character.interface';
-import { Utils } from '../../shared/Utils';
+import { FavoriteService } from '../../services/favorite/favorite.service';
 
 @Component({
   selector: 'app-character-list',
@@ -10,6 +10,7 @@ import { Utils } from '../../shared/Utils';
   styleUrl: './character-list.component.scss',
 })
 export class CharacterListComponent implements OnInit, OnDestroy {
+  favoriteList: StarWarsCharacter[] = [];
   characterList: StarWarsCharacter[] = [];
   nextUrl: string | null = null;
   previousUrl: string | null = null;
@@ -18,7 +19,10 @@ export class CharacterListComponent implements OnInit, OnDestroy {
 
   private unsubscribe$ = new Subject<void>();
 
-  constructor(private swapiService: SwapiService) {}
+  constructor(
+    private swapiService: SwapiService,
+    private favoriteService: FavoriteService
+  ) {}
 
   ngOnInit(): void {
     this.loadCharacters();
@@ -60,19 +64,11 @@ export class CharacterListComponent implements OnInit, OnDestroy {
     }
   }
 
+  isFavorite(character: StarWarsCharacter): boolean {
+    return this.favoriteService.isFavorite(character);
+  }
+
   addToFavorite(character: StarWarsCharacter) {
-    const currentFavorite: StarWarsCharacter[] = JSON.parse(
-      Utils.get('favorite') || '[]'
-    );
-    let exists = false;
-    if (currentFavorite.length > 0) {
-      exists = currentFavorite.some(
-        favoriteCharacter => favoriteCharacter.name === character.name
-      );
-    }
-    if (!exists) {
-      currentFavorite.push(character);
-      Utils.set('favorite', JSON.stringify(currentFavorite));
-    }
+    this.favoriteService.addOrRemoveFavorite(character);
   }
 }
